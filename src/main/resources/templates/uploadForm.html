@@ -1,0 +1,41 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <style>
+    li {
+      list-style-type: none; /* Убираем маркеры */
+    }
+    ul {
+      margin-left: 0; /* Отступ слева в браузере IE и Opera */
+      padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+    }
+  </style>
+</head>
+<body>
+
+<div th:if="${message}">
+  <h2 th:text="${message}"/>
+</div>
+
+<div>
+  <form method="POST" enctype="multipart/form-data" action="/fileApi/">
+    <table>
+      <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+      <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+    </table>
+  </form>
+</div>
+
+<div>
+  <form method="post" enctype="multipart/form-data" action="/fileApi/delete">
+    <ul>
+      <li th:each="file : ${files}">
+        <a th:href="${file}" ><input type ="checkbox" th:value="${file}" th:text="${file}" name="sendFiles"></a>
+      </li>
+    </ul>
+    <input type="submit" value="Delete" />
+  </form>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>size</th>
+        <th>folder</th>
+    </tr>
+    <tr th:each="prod : ${allRoles}">
+        <td th:text="${prod.name}"></td>
+        <td th:text="${prod.type}"></td>
+        <td th:text="${prod.size}"></td>
+        <td th:text="${prod.folder}"></td>
+    </tr>
+</table>
+</body>
+</html>

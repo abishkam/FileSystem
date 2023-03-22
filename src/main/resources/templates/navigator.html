@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/ListSameTypes}" th:object="${men}" method="post">
+    <p>
+        <label>source:
+            <input type="radio" name="types"
+                   th:each="role : ${allRoles}"
+                   th:text="${role}"
+                   th:value="${role}"
+            />
+        </label>
+    </p>
+    <input type="submit" name="submit" value="Search" />
+</form>
+</body>
+</html>
