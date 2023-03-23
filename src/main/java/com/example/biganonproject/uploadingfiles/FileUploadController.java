@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.example.biganonproject.uploadingfiles.storage.StorageFileNotFoundException;
 import com.example.biganonproject.uploadingfiles.storage.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +20,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileUploadController {
 
 
-    private StorageService storageService;
+    private final StorageService storageService;
 
     public FileUploadController(StorageService storageService) {
         this.storageService = storageService;
     }
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
+    public String listUploadedFiles(Model model) {
 
         model.addAttribute("files", storageService.loadAll().map(
                         path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
@@ -53,7 +52,6 @@ public class FileUploadController {
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-
         return "redirect:/fileApi/";
     }
 
