@@ -7,8 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileSystemStorageService implements StorageService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final Path rootLocation;
 
@@ -52,8 +56,9 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void delete(String[] file) throws IOException {
-        for (int i = 0; i < file.length; i++) {
-            Files.delete(rootLocation.resolve(file[i]));
+
+        for (String s : file) {
+            Files.delete(rootLocation.resolve(s));
         }
     }
 
@@ -90,17 +95,20 @@ public class FileSystemStorageService implements StorageService {
             }
         }
         catch (MalformedURLException e) {
+            logger.error("MalformedURLException", e.getCause());
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
 
     @Override
     public void deleteAll() {
+        logger.info("All directories was deleted: {}", LocalDateTime.now());
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
     @Override
     public void init() {
+        logger.info("New directory was created: {} Date: {}", rootLocation, LocalDateTime.now());
         try {
             Files.createDirectories(rootLocation);
         }
